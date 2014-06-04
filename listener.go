@@ -1,4 +1,4 @@
-package main
+package stoppableListener
 
 import "net"
 import "errors"
