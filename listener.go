@@ -1,8 +1,10 @@
-package main
+package stoppableListener
 
-import "net"
-import "errors"
-import "time"
+import (
+	"errors"
+	"net"
+	"time"
+)
 
 type StoppableListener struct {
 	*net.TCPListener          //Wrapped listener
