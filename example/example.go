@@ -7,6 +7,7 @@ import "os/signal"
 import "os"
 import "sync"
 import "syscall"
+import "github.com/hydrogen18/stoppableListener"
 
 func helloHttp(rw http.ResponseWriter, req *http.Request) {
 	rw.WriteHeader(http.StatusOK)
@@ -19,7 +20,7 @@ func main() {
 		panic(err)
 	}
 
-	stoppableListener, err := New(originalListener)
+	stoppableListener, err := stoppableListener.New(originalListener)
 	if err != nil {
 		panic(err)
 	}
