@@ -1,13 +1,15 @@
 package main
 
-import "net"
-import "net/http"
-import "fmt"
-import "os/signal"
-import "os"
-import "sync"
-import "syscall"
-import "github.com/hydrogen18/stoppableListener"
+import (
+	"fmt"
+	"github.com/hydrogen18/stoppableListener"
+	"net"
+	"net/http"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
+)
 
 func helloHttp(rw http.ResponseWriter, req *http.Request) {
 	rw.WriteHeader(http.StatusOK)
@@ -20,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	stoppableListener, err := stoppableListener.New(originalListener)
+	sl, err := stoppableListener.New(originalListener)
 	if err != nil {
 		panic(err)
 	}
@@ -34,7 +36,7 @@ func main() {
 	go func() {
 		wg.Add(1)
 		defer wg.Done()
-		server.Serve(stoppableListener)
+		server.Serve(sl)
 	}()
 
 	fmt.Printf("Serving HTTP\n")
@@ -43,7 +45,7 @@ func main() {
 		fmt.Printf("Got signal:%v\n", signal)
 	}
 	fmt.Printf("Stopping listener\n")
-	stoppableListener.Stop()
+	sl.Stop()
 	fmt.Printf("Waiting on server\n")
 	wg.Wait()
 
