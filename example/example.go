@@ -33,8 +33,8 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, syscall.SIGINT)
 	var wg sync.WaitGroup
+	wg.Add(1)
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		server.Serve(sl)
 	}()
